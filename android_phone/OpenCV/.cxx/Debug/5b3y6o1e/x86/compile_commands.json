@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/algotn/Documents/mdu-samarbetande-robotar/android_phone/OpenCV/.cxx/Debug/5b3y6o1e/x86",
+  "command": "/home/algotn/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=i686-none-linux-android21 --sysroot=/home/algotn/Android/Sdk/ndk/23.1.7779620/toolchains/llvm/prebuilt/linux-x86_64/sysroot -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -fexceptions -frtti -stdlib=libc++ -g  -fno-limit-debug-info -fPIC -o CMakeFiles/opencv_jni_shared.dir/dummy.cpp.o -c /home/algotn/Documents/mdu-samarbetande-robotar/android_phone/OpenCV/libcxx_helper/dummy.cpp",
+  "file": "/home/algotn/Documents/mdu-samarbetande-robotar/android_phone/OpenCV/libcxx_helper/dummy.cpp"
+}
+]

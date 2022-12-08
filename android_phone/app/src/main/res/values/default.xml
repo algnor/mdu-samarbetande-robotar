@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="hue">
+        <item>20</item>
+        <item>80</item>
+    </array>
+    <array name="sat">
+        <item>40</item>
+        <item>100</item>
+    </array>
+    <array name="val">
+        <item>60</item>
+        <item>120</item>
+    </array>
+    <array name="size">
+        <item>100</item>
+        <item>500</item>
+    </array>
+</resources>

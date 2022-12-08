@@ -1,0 +1,3 @@
+/home/algotn/Documents/mdu-samarbetande-robotar/android_phone/OpenCV/.cxx/Debug/5q6o1yd7/x86/CMakeFiles/opencv_jni_shared.dir
+/home/algotn/Documents/mdu-samarbetande-robotar/android_phone/OpenCV/.cxx/Debug/5q6o1yd7/x86/CMakeFiles/edit_cache.dir
+/home/algotn/Documents/mdu-samarbetande-robotar/android_phone/OpenCV/.cxx/Debug/5q6o1yd7/x86/CMakeFiles/rebuild_cache.dir
