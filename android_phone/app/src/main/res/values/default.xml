@@ -13,7 +13,9 @@
         <item>120</item>
     </array>
     <array name="size">
-        <item>100</item>
-        <item>500</item>
+        <item>50</item>
+        <item>1000</item>
     </array>
+    <integer name="erode">5</integer>
+    <integer name="dilate">5</integer>
 </resources>

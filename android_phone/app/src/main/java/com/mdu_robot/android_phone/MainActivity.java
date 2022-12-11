@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.google.android.material.slider.RangeSlider;
+import com.google.android.material.slider.Slider;
 
 import org.opencv.android.CameraActivity;
 import org.opencv.android.CameraBridgeViewBase;
@@ -23,10 +24,15 @@ import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.MatOfPoint2f;
+import org.opencv.core.Point;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -35,6 +41,7 @@ public class MainActivity extends CameraActivity {
 
     CameraBridgeViewBase cameraBridgeViewBase;
     RangeSlider hue_slider, sat_slider, val_slider, size_slider;
+    Slider erode_slider, dilate_slider;
 
     Mat rgb, hsv, mask;
 
@@ -51,7 +58,9 @@ public class MainActivity extends CameraActivity {
         hue_slider = findViewById(R.id.hue_slider);
         sat_slider = findViewById(R.id.sat_slider);
         val_slider = findViewById(R.id.val_slider);
-        size_slider = findViewById(R.id.val_slider);
+        size_slider = findViewById(R.id.size_slider);
+        erode_slider = findViewById(R.id.erode_slider);
+        dilate_slider = findViewById(R.id.dilate_slider);
 
 
         cameraBridgeViewBase = findViewById(R.id.cameraView);
@@ -81,7 +90,8 @@ public class MainActivity extends CameraActivity {
                 List<Float> sat_vals = sat_slider.getValues();
                 List<Float> val_vals = val_slider.getValues();
                 List<Float> size_vals = size_slider.getValues();
-
+                int erode_val = (int) erode_slider.getValue();
+                int dilate_val = (int) dilate_slider.getValue();
 
 
                 Imgproc.cvtColor(rgb, rgb, Imgproc.COLOR_RGBA2RGB);
@@ -89,7 +99,54 @@ public class MainActivity extends CameraActivity {
 
                 Core.inRange(hsv, new Scalar(hue_vals.get(0), sat_vals.get(0), val_vals.get(0)), new Scalar(hue_vals.get(1), sat_vals.get(1), val_vals.get(1)), mask);
 
+                if (erode_val > 0) {
+                    Mat erode_kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(erode_val, erode_val));
+                    Imgproc.erode(mask, mask, erode_kernel);
+                }
+
+                if (dilate_val > 0) {
+                    Mat dilate_kernel = Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(dilate_val, dilate_val));
+                    Imgproc.dilate(mask, mask, dilate_kernel);
+                }
+
+                List<MatOfPoint> contours = new ArrayList<>();
+
+                Imgproc.findContours(mask, contours, new Mat(), 2, Imgproc.RETR_TREE);
+
+                Scalar color = new Scalar(0, 255, 0);
+
                 rgb.setTo(new Scalar(0, 0, 255), mask);
+
+
+                Point[] centers = new Point[contours.size()];
+                float[][] radiuses = new float[contours.size()][1];
+                MatOfPoint2f[] contoursPoly = new MatOfPoint2f[contours.size()];
+                Scalar selection_color = new Scalar(255, 200, 100);
+                Scalar primary_selection_color = new Scalar(255, 50, 200);
+                List<MatOfPoint> filtered_contours = new ArrayList<>();
+
+                int largest = 0;
+
+                if (contours.size() == 0) { return rgb;}
+
+                for (int i = 0; i < contours.size(); i++) {
+
+                    contoursPoly[i] = new MatOfPoint2f();
+                    Imgproc.approxPolyDP(new MatOfPoint2f(contours.get(i).toArray()), contoursPoly[i], 3, true);
+                    centers[i] = new Point();
+                    Imgproc.minEnclosingCircle(contoursPoly[i], centers[i], radiuses[i]);
+                    if (radiuses[i][0] > radiuses[largest][0]) {
+                        largest = i;
+                    }
+                    Log.d("OPENCV", String.valueOf(size_vals.get(0)));
+                    Log.d("OPENCV", String.valueOf(radiuses[i][0]));
+                    if ((radiuses[i][0] > size_vals.get(0)) && (radiuses[i][0] < size_vals.get(1))) {
+                        Imgproc.circle(rgb, centers[i], (int) radiuses[i][0], selection_color, 2);
+                        filtered_contours.add(contours.get(i));
+                    }
+                }
+                Imgproc.drawContours(rgb, filtered_contours, -1, color, Imgproc.LINE_8);
+                Imgproc.circle(rgb, centers[largest], (int) radiuses[largest][0], primary_selection_color, 10);
 
                 return rgb;
             }

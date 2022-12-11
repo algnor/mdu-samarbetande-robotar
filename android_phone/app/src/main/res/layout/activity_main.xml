@@ -44,7 +44,7 @@
                 android:id="@+id/hue_slider"
                 android:layout_width="0dp"
                 android:valueFrom="0.0"
-                android:valueTo="255.0"
+                android:valueTo="180.0"
                 android:stepSize="1"
                 app:values="@array/hue"               android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -99,13 +99,68 @@
             <com.google.android.material.slider.RangeSlider
                 android:id="@+id/val_slider"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:valueFrom="0.0"
-                android:valueTo="180.0"
+                android:valueTo="255.0"
                 android:stepSize="1"
-                app:values="@array/val"               android:layout_height="wrap_content"
+                app:values="@array/val"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/val_text"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/erode_text"
+                android:layout_width="60dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="erode"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/erode_slider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:valueFrom="0.0"
+                android:valueTo="10.0"
+                android:stepSize="1.0"
+                android:value="@integer/erode"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/dilate_text"
+                app:layout_constraintStart_toEndOf="@+id/erode_text"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/dilate_text"
+                android:layout_width="60dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:text="diliate"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/erode_slider"
+                app:layout_constraintEnd_toStartOf="@+id/dilate_slider"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/dilate_slider"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:valueFrom="0.0"
+                android:valueTo="10.0"
+                android:stepSize="1.0"
+                android:value="@integer/dilate"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/dilate_text"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -130,14 +185,12 @@
                 android:layout_height="wrap_content"
                 android:valueFrom="0.0"
                 android:valueTo="1000.0"
-                android:stepSize="50"
                 app:values="@array/size"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/size_text"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </LinearLayout>
 
